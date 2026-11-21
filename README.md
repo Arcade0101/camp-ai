@@ -2,7 +2,7 @@
 
 Camp AI is an open-source learning project that helps teachers find schedules, meeting points, and preparation instructions for educational camps. A coordinator will share a camp link that teachers can open on their phones.
 
-**Current milestone — Phase 3, camp details.** The Next.js server app supports coordinator sign-in plus camp creation and editing in a private dashboard backed by Supabase. Document uploads and teacher chat are upcoming work. The Phase 1 preview is available as a static GitHub Pages export.
+**Current milestone — Phase 3, camp details and TXT uploads.** The Next.js server app supports coordinator sign-in plus camp creation and editing in a private dashboard backed by Supabase. Coordinators can also upload private TXT documents. PDF, DOCX, and teacher chat are upcoming work. The Phase 1 preview is available as a static GitHub Pages export.
 
 ## Planned MVP
 
@@ -49,6 +49,15 @@ In your Codespace, pull the latest `main` and restart the development server. Th
 2. Enter a fictional name such as **Cedar Creek Science Camp**. Add dates, a location, meeting time, or instructions if you want.
 3. Save and check for **Camp saved**. Return to the dashboard, open the new camp, change its location, and save again.
 4. Refresh the edit page to confirm the new location persisted. With a second coordinator account, the first coordinator's camp should be absent from the dashboard and unavailable at its edit URL.
+
+## Enable TXT uploads
+
+1. In the **Supabase SQL Editor**, run `supabase/migrations/20261121000200_txt_uploads.sql` once, after the Phase 2 migration. It creates a private Storage bucket and adds policies for camp owners.
+2. Pull the latest `main` in Codespaces and restart the server.
+3. Open one of your fictional camps. Under **Camp documents**, upload a UTF-8 `.txt` file up to 256 KB. For example, save `Meet at the visitor center at 8:30.` in a file named `arrival.txt`.
+4. Confirm the file shows **Ready**. In Supabase **Table Editor → document_chunks**, you can check the extracted text. Under **Storage**, confirm the `camp-documents` bucket is private.
+
+Use fictional content for this check. The upload uses the existing Supabase URL and publishable key alongside the signed-in coordinator's session.
 
 ## Verify changes
 

@@ -1,14 +1,17 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { campFields, type CampFields } from "./fields";
 
 export function CampForm({
   camp,
   error,
   saved,
+  children,
 }: {
   camp?: CampFields & { id: string };
   error?: string;
   saved?: boolean;
+  children?: ReactNode;
 }) {
   const inputClass = "min-h-11 w-full rounded-lg border border-line px-3 py-2";
   return (
@@ -78,6 +81,7 @@ export function CampForm({
           {camp ? "Save changes" : "Create camp"}
         </button>
       </form>
+      {children}
     </main>
   );
 }

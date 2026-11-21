@@ -35,3 +35,15 @@
 **What you learned.** The form collects input, the server validates it and selects the current owner from the session, and the database enforces ownership independently. After a successful write, the endpoint redirects the browser to the edit page, where a refresh only reloads the saved data.
 
 **Suggested commit** — `feat: add coordinator camp creation and editing`
+
+## Phase 3 — TXT uploads
+
+**What we built.** The edit page accepts a small UTF-8 TXT file, stores the original in a private bucket, and splits the text into chunks for future retrieval.
+
+**Main files.** The documents endpoint and text parser live in `app/dashboard/camps/[id]/documents/`. The TXT migration creates Storage policies and a PostgreSQL function that saves the text chunks and updates the document status in one transaction.
+
+**How to test.** Follow the README upload steps. Try a valid TXT file, an empty TXT file, and a file with an unsupported extension. Check that only the valid file reaches **Ready**.
+
+**What you learned.** Storage holds the original file, while PostgreSQL holds metadata and extracted text. PostgreSQL can save the chunks and status together. Storage uses a separate API, so the app tracks a pending record and attempts to remove the file if processing fails.
+
+**Suggested commit** — `feat: add private TXT uploads for camp documents`
