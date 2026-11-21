@@ -21,3 +21,9 @@ Next.js renders the public landing page from `app/page.tsx`. The shared layout p
 5. The server checks that returned references point to retrieved chunks. When the answer lacks support, the interface directs the teacher to their coordinator. Uploaded text is treated as untrusted input throughout.
 
 Next.js owns the UI and server endpoints. Supabase handles authentication, relational data, and file storage. Gemini handles answer generation. Keeping extraction and retrieval in the app gives the initial version one deployment and avoids a separate worker or search service.
+
+## Phase 2
+
+Email/password sign-in and sign-out run in Next.js server actions. Supabase Auth verifies credentials, and an administrator-managed `coordinators` table determines who can enter the dashboard. The session lives in HTTP-only cookies. The Next.js proxy refreshes the session as needed. The dashboard verifies the user with Supabase before reading data.
+
+PostgreSQL row-level security checks the signed-in user's identity for every camp, document, and chunk query. For example, even a direct request to the Supabase API can only read camps owned by the signed-in coordinator. A composite foreign key keeps each chunk attached to a document in its own camp. Phase 2 reads the coordinator's camp list. Later phases will add camp editing, private Storage, and teacher-scoped access.

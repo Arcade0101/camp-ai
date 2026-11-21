@@ -13,12 +13,20 @@ export default function Home() {
           </span>
           Camp AI
         </Link>
-        <a
-          className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
-          href="#how-it-works"
-        >
-          How it works
-        </a>
+        <nav aria-label="Main" className="flex flex-wrap items-center gap-4">
+          <a
+            className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
+            href="#how-it-works"
+          >
+            How it works
+          </a>
+          <Link
+            className="text-sm font-semibold text-pine underline-offset-4 hover:underline"
+            href="/login"
+          >
+            Coordinator sign-in
+          </Link>
+        </nav>
       </header>
 
       <main>

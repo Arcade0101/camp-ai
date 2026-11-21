@@ -11,3 +11,15 @@
 **What you learned.** An App Router route can render without client-side state or a backend. ESLint checks code conventions and common errors, TypeScript checks types, and Prettier checks consistent formatting. A production build checks that Next.js can compile and render the project for deployment.
 
 **Suggested commit** — `feat: scaffold Camp AI and add the landing page`
+
+## Phase 2 — Database and authentication
+
+**What we built.** Coordinator password sign-in, a private dashboard, and database policies for coordinator-owned camp data. This gives camp management a verified user and a place to store records.
+
+**Main files.** `supabase/migrations/20261121000100_phase_2.sql` creates the schema and access policies. `app/login/` and `app/dashboard/` implement the pages and server actions. `lib/supabase/` supplies the server client, and `proxy.ts` refreshes session cookies when necessary.
+
+**How to test.** Follow the Supabase setup in the README. Sign in, check the camp list, sign out, and request the dashboard again. Compare two coordinators' camp lists and try an Auth account that has no coordinator membership.
+
+**What you learned.** Authentication verifies identity. Authorization decides which actions that identity can take. Next.js checks who can enter the dashboard, while PostgreSQL independently checks which rows each user can access.
+
+**Suggested commit** — `feat: add coordinator authentication and camp access policies`
