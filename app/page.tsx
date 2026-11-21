@@ -93,8 +93,8 @@ export default function Home() {
             </div>
           </dl>
           <p className="mt-5 text-sm text-muted">
-            Coordinators can sign in, manage camp details, and upload TXT files.
-            Teacher chat is planned for a later phase.
+            Coordinators can sign in, manage camp details, and upload TXT or PDF
+            files. Teacher chat is planned for a later phase.
           </p>
         </section>
       </main>

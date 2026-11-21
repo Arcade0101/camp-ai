@@ -5,7 +5,24 @@ import {
 } from "../../../../../lib/supabase/auth-form";
 import { getCoordinatorAccess } from "../../../../../lib/supabase/coordinator";
 import { isCampId } from "../../fields";
-import { extractTextChunks, maxTextFileBytes, readUploadForm } from "./text";
+import { extractPdfText } from "./pdf";
+import {
+  decodeTxt,
+  maxPdfFileBytes,
+  maxTextFileBytes,
+  readUploadForm,
+  splitDocumentText,
+} from "./text";
+
+const formats = {
+  txt: { mimeType: "text/plain", maxBytes: maxTextFileBytes },
+  pdf: { mimeType: "application/pdf", maxBytes: maxPdfFileBytes },
+} as const;
+
+function getExtension(filename: string) {
+  const extension = /\.(txt|pdf)$/i.exec(filename)?.[1].toLowerCase();
+  return extension === "txt" || extension === "pdf" ? extension : null;
+}
 
 export async function POST(
   request: Request,
@@ -34,22 +51,27 @@ export async function POST(
 
   const form = await readUploadForm(request);
   const file = form?.get("document");
-  if (
-    !(file instanceof File) ||
-    !/\.txt$/i.test(file.name) ||
-    file.name.length > 255 ||
-    file.size === 0 ||
-    file.size > maxTextFileBytes
-  ) {
+  if (!(file instanceof File) || file.name.length > 255 || file.size === 0) {
+    return redirectAfterForm(`${path}?upload=invalid`);
+  }
+
+  const extension = getExtension(file.name);
+  if (!extension || file.size > formats[extension].maxBytes) {
     return redirectAfterForm(`${path}?upload=invalid`);
   }
 
   const bytes = await file.arrayBuffer();
-  const chunks = extractTextChunks(bytes);
-  if (chunks.length === 0) return redirectAfterForm(`${path}?upload=invalid`);
+  const text =
+    extension === "pdf" ? await extractPdfText(bytes) : decodeTxt(bytes);
+  const chunks = splitDocumentText(text);
+  if (chunks.length === 0) {
+    return redirectAfterForm(
+      `${path}?upload=${extension === "pdf" ? "pdf-text" : "invalid"}`,
+    );
+  }
 
   const documentId = randomUUID();
-  const storagePath = `${camp.id}/${documentId}.txt`;
+  const storagePath = `${camp.id}/${documentId}.${extension}`;
   const { error: reserveError } = await supabase.from("documents").insert({
     id: documentId,
     camp_id: camp.id,
@@ -61,7 +83,7 @@ export async function POST(
 
   const bucket = supabase.storage.from("camp-documents");
   const { error: uploadError } = await bucket.upload(storagePath, bytes, {
-    contentType: "text/plain",
+    contentType: formats[extension].mimeType,
     upsert: false,
   });
 

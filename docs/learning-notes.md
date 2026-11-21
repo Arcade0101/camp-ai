@@ -47,3 +47,15 @@
 **What you learned.** Storage holds the original file, while PostgreSQL holds metadata and extracted text. PostgreSQL can save the chunks and status together. Storage uses a separate API, so the app tracks a pending record and attempts to remove the file if processing fails.
 
 **Suggested commit** — `feat: add private TXT uploads for camp documents`
+
+## Phase 3 — PDF uploads
+
+**What we built.** Coordinators can upload PDFs with selectable text using the same form as TXT. The upload keeps the original private and stores extracted text chunks alongside the other camp documents.
+
+**Main files.** `app/dashboard/camps/[id]/documents/pdf.ts` reads text using PDF.js within file, page, and text limits. The PDF migration permits the PDF media type in the existing Storage bucket.
+
+**How to test.** Apply the PDF migration and upload the fictional `examples/arrival.pdf`. It should show **Ready**. A blank, locked, or image-only PDF should report that text couldn’t be extracted.
+
+**What you learned.** A PDF can contain selectable text or an image of text. PDF.js reads the first kind. Extracting text from the second kind requires OCR.
+
+**Suggested commit** — `feat: support private PDF uploads`

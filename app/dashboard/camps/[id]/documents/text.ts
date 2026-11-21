@@ -1,5 +1,6 @@
 export const maxTextFileBytes = 256 * 1024;
-const maxFormBytes = maxTextFileBytes + 8 * 1024;
+export const maxPdfFileBytes = 2 * 1024 * 1024;
+const maxFormBytes = maxPdfFileBytes + 8 * 1024;
 const chunkLength = 1200;
 
 export async function readUploadForm(request: Request) {
@@ -34,14 +35,15 @@ export async function readUploadForm(request: Request) {
   }
 }
 
-export function extractTextChunks(bytes: ArrayBuffer) {
-  let text: string;
+export function decodeTxt(bytes: ArrayBuffer) {
   try {
-    text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   } catch {
-    return [];
+    return "";
   }
+}
 
+export function splitDocumentText(text: string) {
   // Permit tab and line breaks while rejecting binary control characters.
   if (
     Array.from(text).some((character) => {

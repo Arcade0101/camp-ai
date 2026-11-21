@@ -29,7 +29,13 @@ export function DocumentList({
       )}
       {upload === "invalid" && (
         <p role="alert" className="mt-3 text-sm text-red-800">
-          Choose a non-empty UTF-8 TXT file under 256 KB.
+          Choose a non-empty TXT file up to 256 KB or a PDF up to 2 MB.
+        </p>
+      )}
+      {upload === "pdf-text" && (
+        <p role="alert" className="mt-3 text-sm text-red-800">
+          Text couldn’t be extracted. Use an unlocked PDF with selectable text
+          and up to 30 pages.
         </p>
       )}
       {upload === "failed" && (
@@ -65,11 +71,11 @@ export function DocumentList({
         action={`/dashboard/camps/${campId}/documents`}
       >
         <label className="grid gap-1 text-sm font-medium">
-          TXT document (up to 256 KB)
+          Document (TXT up to 256 KB, PDF up to 2 MB)
           <input
             type="file"
             name="document"
-            accept=".txt,text/plain"
+            accept=".txt,text/plain,.pdf,application/pdf"
             required
             className="w-full rounded-lg border border-line p-2"
           />

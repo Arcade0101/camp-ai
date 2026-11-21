@@ -2,11 +2,11 @@
 
 Camp AI is an open-source learning project that helps teachers find schedules, meeting points, and preparation instructions for educational camps. A coordinator will share a camp link that teachers can open on their phones.
 
-**Current milestone — Phase 3, camp details and TXT uploads.** The Next.js server app supports coordinator sign-in plus camp creation and editing in a private dashboard backed by Supabase. Coordinators can also upload private TXT documents. PDF, DOCX, and teacher chat are upcoming work. The Phase 1 preview is available as a static GitHub Pages export.
+**Current milestone — Phase 3, camp details and document uploads.** The Next.js server app supports coordinator sign-in plus camp creation and editing in a private dashboard backed by Supabase. Coordinators can also upload private TXT and PDF documents. Teacher chat is upcoming work. The Phase 1 preview is available as a static GitHub Pages export.
 
 ## Planned MVP
 
-- Coordinators sign in, manage camps, upload PDF, DOCX, or TXT files, and share camp links with optional access codes.
+- Coordinators sign in, manage camps, upload PDF or TXT files, and share camp links with optional access codes.
 - Teachers open a camp link without registering and ask questions about that camp.
 - Answers cite supporting documents. If the evidence is missing, the app directs the teacher to their coordinator.
 
@@ -58,6 +58,14 @@ In your Codespace, pull the latest `main` and restart the development server. Th
 4. Confirm the file shows **Ready**. In Supabase **Table Editor → document_chunks**, you can check the extracted text. Under **Storage**, confirm the `camp-documents` bucket is private.
 
 Use fictional content for this check. The upload uses the existing Supabase URL and publishable key alongside the signed-in coordinator's session.
+
+## Enable PDF uploads
+
+1. In **Supabase SQL Editor**, run `supabase/migrations/20261121000300_pdf_uploads.sql` once, after the TXT upload migration.
+2. Pull the latest `main` in Codespaces. Run `npm ci && npm run dev` to install the PDF parser and restart the app.
+3. Download the fictional [arrival.pdf](https://github.com/Arcade0101/camp-ai/blob/main/examples/arrival.pdf), open your test camp, and upload it under **Camp documents**. It should show **Ready**. The extracted text is visible in Supabase under **Table Editor → document_chunks**.
+
+PDFs can be up to 2 MB and 30 pages. Use an unlocked PDF with selectable text. Image-only scans require OCR.
 
 ## Verify changes
 
