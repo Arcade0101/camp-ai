@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #192c24;
+  --color-muted: #4a5c51;
+  --color-pine: #245743;
+  --color-mist: #edf4ef;
+  --color-line: #dbe6de;
+}
+
+body {
+  background: white;
+  color: var(--color-ink);
+}
