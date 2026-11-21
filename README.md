@@ -42,26 +42,17 @@ Run `npm start` after a build to check the production server locally.
 
 ### GitHub Pages for Phase 1
 
-Build the static site from the source checkout. Replace `/camp-ai` with your repository name, including the leading slash. For a repository named `<owner>.github.io`, use an empty base path.
+The source and static export both live on `main`. GitHub Pages publishes from `/docs` at <https://arcade0101.github.io/camp-ai/>.
+
+After editing the landing page, rebuild and copy the export into the publishing folder. The base path matches the repository name. Next.js includes `.nojekyll` so GitHub Pages serves the `_next/` assets.
 
 ```sh
 npm ci
 CAMP_AI_STATIC_EXPORT=1 CAMP_AI_BASE_PATH=/camp-ai npm run build
+cp -a out/. docs/
 ```
 
-Publish the contents of `out/` at the root of a dedicated `gh-pages` branch. Keep `index.html`, `_next/`, and the hidden `.nojekyll` file together. GitHub Pages uses `.nojekyll` to serve Next.js assets under `_next/` directly.
-
-If `origin` points to your GitHub repository and `gh-pages` is a new branch, these commands create a separate checkout and publish the export:
-
-```sh
-git worktree add --orphan -b gh-pages ../camp-ai-pages
-cp -a out/. ../camp-ai-pages/
-git -C ../camp-ai-pages add --all
-git -C ../camp-ai-pages commit -m "Publish Camp AI landing page"
-git -C ../camp-ai-pages push -u origin gh-pages
-```
-
-In **Settings → Pages**, choose **Deploy from a branch**, select **gh-pages** and **/ (root)**, and save. For a repository named `camp-ai`, the URL will usually be `https://<owner>.github.io/camp-ai/`. To publish an update, rebuild from the source checkout, replace the previously exported files in the publishing checkout, and commit and push there again.
+Preserve `docs/architecture.md` and `docs/learning-notes.md` when refreshing the export. Review the changes and commit the updated source and export to `main`. To set up Pages, open **Settings → Pages**, choose **Deploy from a branch**, and select **main** and **/docs**.
 
 ### Hosting the full application
 

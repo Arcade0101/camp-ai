@@ -4,7 +4,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
-  globalIgnores([".next/**", "out/**", "next-env.d.ts"]),
+  globalIgnores([".next/**", "out/**", "docs/_next/**", "next-env.d.ts"]),
   js.configs.recommended,
   ...tseslint.configs.recommended,
   nextPlugin.configs["core-web-vitals"],
