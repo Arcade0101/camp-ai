@@ -2,7 +2,7 @@
 
 Camp AI is an open-source learning project that helps teachers find schedules, meeting points, and preparation instructions for educational camps. A coordinator will share a camp link that teachers can open on their phones.
 
-**Current milestone — Phase 2.** The Next.js server app supports coordinator sign-in and a private dashboard backed by Supabase. Camp editing, document uploads, and teacher chat are upcoming work. The Phase 1 preview is available as a static GitHub Pages export.
+**Current milestone — Phase 3, camp details.** The Next.js server app supports coordinator sign-in plus camp creation and editing in a private dashboard backed by Supabase. Document uploads and teacher chat are upcoming work. The Phase 1 preview is available as a static GitHub Pages export.
 
 ## Planned MVP
 
@@ -40,6 +40,15 @@ Open the forwarded port 3000 from the **Ports** tab. The same commands work in a
 5. Open the server app at `/login`. Sign in with the coordinator account and confirm you reach the dashboard. Sign out, then reopen `/dashboard` to confirm it redirects to sign-in.
 
 To verify boundaries on Supabase, create two authorized coordinators and one Auth user without a coordinator membership. Use the project SQL editor as administrator to insert one fictional camp per coordinator using the respective user IDs. Sign in as each coordinator and check that only their camp appears. The regular Auth user should be denied the dashboard. Remove these test accounts and camps when you finish.
+
+## Test camp management
+
+In your Codespace, pull the latest `main` and restart the development server. The existing Phase 2 migration already includes the camp fields.
+
+1. Sign in and click **Create camp** on the dashboard.
+2. Enter a fictional name such as **Cedar Creek Science Camp**. Add dates, a location, meeting time, or instructions if you want.
+3. Save and check for **Camp saved**. Return to the dashboard, open the new camp, change its location, and save again.
+4. Refresh the edit page to confirm the new location persisted. With a second coordinator account, the first coordinator's camp should be absent from the dashboard and unavailable at its edit URL.
 
 ## Verify changes
 

@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { createSupabaseClient } from "../../lib/supabase/server";
+import { requireCoordinator } from "../../lib/supabase/coordinator";
 
 export const metadata = { title: "Coordinator dashboard | Camp AI" };
 export const dynamic = "force-dynamic";
@@ -10,20 +9,7 @@ export default async function DashboardPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  const supabase = await createSupabaseClient();
-  if (!supabase) redirect("/login");
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
-
-  const { data: coordinator } = await supabase
-    .from("coordinators")
-    .select("user_id")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!coordinator) redirect("/login?error=credentials");
+  const { supabase, user } = await requireCoordinator();
 
   const { data: camps, error: campsError } = await supabase
     .from("camps")
@@ -54,7 +40,15 @@ export default async function DashboardPage({
         </p>
       )}
       <section className="mt-6 rounded-2xl border border-line p-5">
-        <h2 className="text-lg font-semibold">Your camps</h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold">Your camps</h2>
+          <Link
+            href="/dashboard/camps/new"
+            className="rounded-lg bg-pine px-4 py-2.5 text-sm font-semibold text-white hover:bg-ink"
+          >
+            Create camp
+          </Link>
+        </div>
         {campsError ? (
           <p role="alert" className="mt-3 text-sm text-red-800">
             Camps couldn’t load. Refresh the page to try again.
@@ -63,7 +57,12 @@ export default async function DashboardPage({
           <ul className="mt-2 divide-y divide-line">
             {camps.map((camp) => (
               <li className="py-3" key={camp.id}>
-                <p className="font-medium">{camp.name}</p>
+                <Link
+                  href={`/dashboard/camps/${camp.id}`}
+                  className="font-medium text-pine underline underline-offset-4"
+                >
+                  {camp.name}
+                </Link>
                 {camp.location && (
                   <p className="text-sm text-muted">{camp.location}</p>
                 )}

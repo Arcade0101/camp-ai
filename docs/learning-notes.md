@@ -23,3 +23,15 @@
 **What you learned.** Authentication verifies identity. Authorization decides which actions that identity can take. Next.js checks who can enter the dashboard, while PostgreSQL independently checks which rows each user can access.
 
 **Suggested commit** — `feat: add coordinator authentication and camp access policies`
+
+## Phase 3 — Camp details
+
+**What we built.** A coordinator can create a camp and edit its details from the dashboard. Creation and editing share one form for names, locations, dates, meeting times, descriptions, and instructions.
+
+**Main files.** `app/dashboard/camps/` contains the pages, validation, and save endpoint. `lib/supabase/coordinator.ts` checks coordinator access before a camp can be read or written. The existing database policies restrict every write to the owner.
+
+**How to test.** Create and edit a fictional camp in Codespaces, then sign in as a different coordinator and try the first camp's edit URL. Try an end date before the start date to see the validation message.
+
+**What you learned.** The form collects input, the server validates it and selects the current owner from the session, and the database enforces ownership independently. After a successful write, the endpoint redirects the browser to the edit page, where a refresh only reloads the saved data.
+
+**Suggested commit** — `feat: add coordinator camp creation and editing`

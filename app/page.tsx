@@ -93,8 +93,8 @@ export default function Home() {
             </div>
           </dl>
           <p className="mt-5 text-sm text-muted">
-            The landing page is available now. Coordinator tools and teacher
-            chat are planned for later phases.
+            Coordinators can sign in and manage camp details. Document uploads
+            and teacher chat are planned for later phases.
           </p>
         </section>
       </main>
