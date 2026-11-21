@@ -16,7 +16,7 @@
 
 **What we built.** Coordinator password sign-in, a private dashboard, and database policies for coordinator-owned camp data. This gives camp management a verified user and a place to store records.
 
-**Main files.** `supabase/migrations/20261121000100_phase_2.sql` creates the schema and access policies. `app/login/` and `app/dashboard/` implement the pages and server actions. `lib/supabase/` supplies the server client, and `proxy.ts` refreshes session cookies when necessary.
+**Main files.** `supabase/migrations/20261121000100_phase_2.sql` creates the schema and access policies. `app/login/` and `app/dashboard/` implement the pages and form endpoints. `lib/supabase/` supplies the server client, and `proxy.ts` refreshes session cookies when necessary.
 
 **How to test.** Follow the Supabase setup in the README. Sign in, check the camp list, sign out, and request the dashboard again. Compare two coordinators' camp lists and try an Auth account that has no coordinator membership.
 

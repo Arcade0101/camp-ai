@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseClient } from "../../lib/supabase/server";
-import { signOut } from "./actions";
 
 export const metadata = { title: "Coordinator dashboard | Camp AI" };
 export const dynamic = "force-dynamic";
@@ -40,7 +39,7 @@ export default async function DashboardPage({
         <Link className="font-bold text-pine" href="/">
           Camp AI
         </Link>
-        <form action={signOut}>
+        <form method="post" action="/dashboard/sign-out">
           <button className="min-h-11 rounded-lg border border-line px-4 text-sm font-semibold hover:bg-mist">
             Sign out
           </button>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getSupabaseConfig } from "../../lib/supabase/config";
-import { signIn } from "./actions";
 
 export const metadata = { title: "Coordinator sign-in | Camp AI" };
 
@@ -21,7 +20,7 @@ export default async function LoginPage({
         Coordinator sign-in
       </h1>
       {configured ? (
-        <form action={signIn} className="mt-6 grid gap-4">
+        <form method="post" action="/login/submit" className="mt-6 grid gap-4">
           <label className="grid gap-1 text-sm font-medium">
             Email
             <input

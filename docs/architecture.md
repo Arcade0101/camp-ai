@@ -24,6 +24,6 @@ Next.js owns the UI and server endpoints. Supabase handles authentication, relat
 
 ## Phase 2
 
-Email/password sign-in and sign-out run in Next.js server actions. Supabase Auth verifies credentials, and an administrator-managed `coordinators` table determines who can enter the dashboard. The session lives in HTTP-only cookies. The Next.js proxy refreshes the session as needed. The dashboard verifies the user with Supabase before reading data.
+Email/password sign-in and sign-out use same-origin POST form endpoints in Next.js. Supabase Auth verifies credentials, and an administrator-managed `coordinators` table determines who can enter the dashboard. The session lives in HTTP-only cookies. The Next.js proxy refreshes the session as needed. The dashboard verifies the user with Supabase before reading data.
 
 PostgreSQL row-level security checks the signed-in user's identity for every camp, document, and chunk query. For example, even a direct request to the Supabase API can only read camps owned by the signed-in coordinator. A composite foreign key keeps each chunk attached to a document in its own camp. Phase 2 reads the coordinator's camp list. Later phases will add camp editing, private Storage, and teacher-scoped access.

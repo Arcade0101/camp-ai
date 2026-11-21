@@ -13,10 +13,9 @@ export default function config(phase: string): NextConfig {
     return {};
   }
 
-  // Trust only this Codespace's port-3000 browser origin.
+  // Allow development assets from this Codespace's forwarded browser origin.
   const origin = `${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}`;
   return {
     allowedDevOrigins: [origin],
-    experimental: { serverActions: { allowedOrigins: [origin] } },
   };
 }
